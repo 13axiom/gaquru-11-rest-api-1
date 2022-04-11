@@ -7,7 +7,7 @@ import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.hamcrest.Matchers.is;
 
-public class ReqresInTests {
+public class ReqresInTestsLecture {
 
     @Test
     void successfulLogin() {
