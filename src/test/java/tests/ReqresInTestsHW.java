@@ -11,14 +11,14 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ReqresInTestsHW {
+public class ReqresInTestsHW extends TestBase {
 
     @Test
     void resourceNotFound() {
 
         String response = given()
                 .when()
-                .get("https://reqres.in/api/unknown/23")
+                .get("/api/unknown/23")
                 .then()
                 .statusCode(404)
                 .extract().asString();
@@ -28,7 +28,7 @@ public class ReqresInTestsHW {
 
     @Test
     void resourceNotFoundOtherWay() {
-        get("https://reqres.in/api/unknown/23")
+        get("/api/unknown/23")
                 .then()
                 .statusCode(404)
                 .body("data", is(emptyOrNullString()));
@@ -43,7 +43,7 @@ public class ReqresInTestsHW {
                 .body(registerData)
                 .contentType(JSON)
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/api/register")
                 .then()
                 .statusCode(200)
                 .body("id", is(notNullValue()))
@@ -59,7 +59,7 @@ public class ReqresInTestsHW {
                 .body(registerDataWithoutPass)
                 .contentType(JSON)
                 .when()
-                .post("https://reqres.in/api/register")
+                .post("/api/register")
                 .then()
                 .statusCode(400)
                 .body("error", is("Missing password"));
@@ -72,7 +72,7 @@ public class ReqresInTestsHW {
                 .body(updatedInfo)
                 .contentType(JSON)
                 .when()
-                .put("https://reqres.in/api/users/2")
+                .put("/api/users/2")
                 .then()
                 .statusCode(200)
                 .body("name", is("morpheus"))
@@ -82,7 +82,7 @@ public class ReqresInTestsHW {
     @Test
     void countUsersPerPage1() {
 
-        get("https://reqres.in/api/users?page=1")
+        get("/api/users?page=1")
                 .then()
                 .statusCode(200)
                 .body("data", everyItem(hasKey("id")))
@@ -93,35 +93,35 @@ public class ReqresInTestsHW {
     @Test
     void validateJsonSchema() {
 
-        get("https://reqres.in/api/users?page=2")
+        get("/api/users?page=2")
                 .then()
                 .assertThat().body(matchesJsonSchemaInClasspath("usr_sch.json"));
     }
 
     @Test
     void checkThatUserListHasId7() {
-        get("https://reqres.in/api/users?page=2")
+        get("/api/users?page=2")
                 .then()
                 .body("data.id", hasItems(7));
     }
 
     @Test
     void checkThatUserListHasId7And9() {
-        get("https://reqres.in/api/users?page=2")
+        get("/api/users?page=2")
                 .then()
                 .body("data.id", hasItems(7, 9));
     }
 
     @Test
     void checkThatSecondPageOfUserListHasntId6() {
-        get("https://reqres.in/api/users?page=2")
+        get("/api/users?page=2")
                 .then()
                 .body("data.id", not(hasItems(6)));
     }
 
     @Test
     void checkThatUserListHasUserWitnName() {
-        get("https://reqres.in/api/users?page=2")
+        get("/api/users?page=2")
                 .then()
                 .body("data.first_name", hasItems("Rachel"));
     }
