@@ -2,17 +2,14 @@ package tests;
 
 import org.junit.jupiter.api.Test;
 
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-
-
-import static io.restassured.RestAssured.*;
 import static io.restassured.RestAssured.get;
+import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.hamcrest.Matchers.*;
 import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class ReqresInTestsHW {
 
@@ -31,10 +28,7 @@ public class ReqresInTestsHW {
 
     @Test
     void resourceNotFoundOtherWay() {
-
-        given()
-                .when()
-                .get("https://reqres.in/api/unknown/23")
+        get("https://reqres.in/api/unknown/23")
                 .then()
                 .statusCode(404)
                 .body("data", is(emptyOrNullString()));
@@ -88,12 +82,10 @@ public class ReqresInTestsHW {
     @Test
     void countUsersPerPage1() {
 
-        given()
-                .when()
-                .get("https://reqres.in/api/users?page=1")
+        get("https://reqres.in/api/users?page=1")
                 .then()
                 .statusCode(200)
-               .body("data", everyItem(hasKey("id")))
+                .body("data", everyItem(hasKey("id")))
                 .body("data.id", hasSize(6));
     }
 
@@ -101,18 +93,29 @@ public class ReqresInTestsHW {
     @Test
     void validateJsonSchema() {
 
-      given()
-                .when()
-                .get("https://reqres.in/api/users?page=2")
+        get("https://reqres.in/api/users?page=2")
                 .then()
                 .assertThat().body(matchesJsonSchemaInClasspath("usr_sch.json"));
+    }
 
+    @Test
+    void checkThatUserListHasId7() {
+        get("https://reqres.in/api/users?page=2")
+                .then()
+                .body("data.id", hasItems(7));
+    }
 
+    @Test
+    void checkThatUserListHasId7And9() {
+        get("https://reqres.in/api/users?page=2")
+                .then()
+                .body("data.id", hasItems(7, 9));
+    }
 
-        //System.out.println(response);
-
-
-
-        //  .body("data", hasItems("id", "email", "first_name", "last_name", "avatar"));
+    @Test
+    void checkThatSecondPageOfUserListHasntId6() {
+        get("https://reqres.in/api/users?page=2")
+                .then()
+                .body("data.id", not(hasItems(6)));
     }
 }
