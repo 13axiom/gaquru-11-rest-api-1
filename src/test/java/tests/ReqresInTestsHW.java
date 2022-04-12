@@ -118,4 +118,11 @@ public class ReqresInTestsHW {
                 .then()
                 .body("data.id", not(hasItems(6)));
     }
+
+    @Test
+    void checkThatUserListHasUserWitnName() {
+        get("https://reqres.in/api/users?page=2")
+                .then()
+                .body("data.first_name", hasItems("Rachel"));
+    }
 }
