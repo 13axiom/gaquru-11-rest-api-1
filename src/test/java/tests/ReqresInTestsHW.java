@@ -1,18 +1,8 @@
 package tests;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import io.restassured.http.ContentType;
-import io.restassured.path.json.JsonPath;
-import io.restassured.response.Response;
-import org.assertj.core.api.Assert;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.*;
+import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 
 
 import static io.restassured.RestAssured.*;
@@ -108,14 +98,21 @@ public class ReqresInTestsHW {
     }
 
 
-    @Test //todo
-    @Disabled
-    void dataObjectContainsReqKeys() {
-        given()
+    @Test
+    void validateJsonSchema() {
+
+      given()
                 .when()
                 .get("https://reqres.in/api/users?page=2")
                 .then()
-                .statusCode(200)
-                .body("data", hasItems("id", "email", "first_name", "last_name", "avatar"));
+                .assertThat().body(matchesJsonSchemaInClasspath("usr_sch.json"));
+
+
+
+        //System.out.println(response);
+
+
+
+        //  .body("data", hasItems("id", "email", "first_name", "last_name", "avatar"));
     }
 }
