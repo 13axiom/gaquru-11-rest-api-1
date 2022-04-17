@@ -1,5 +1,6 @@
 package tests.com.tricentis.demowebshop;
 
+import models.SuscribeData;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
@@ -10,11 +11,15 @@ public class DemowebshopTestsHW extends TestBaseDemowebshop {
     @Test
     void successfulSuscribeForNews() {
 
+        SuscribeData data = new SuscribeData();
+        data.setEmail("test@mailinator.com");
+
         given()
                 .contentType("application/x-www-form-urlencoded; charset=UTF-8")
                 .cookie("ARRAffinity=1818b4c81d905377ced20e7ae987703a674897394db6e97dc1316168f754a687; " +
                         "Nop.customer=a564969f-9309-44fc-8f4d-fa542345d05b")
-                .formParam("email", "test@mailinator.com")
+                //.formParam("email", "test@mailinator.com")
+                .body(data)
                 .when()
                 .post("/subscribenewsletter")
                 .then()
