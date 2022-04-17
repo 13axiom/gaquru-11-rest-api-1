@@ -1,4 +1,4 @@
-package tests;
+package tests.in.reqres;
 
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ import static org.hamcrest.core.IsNull.notNullValue;
 import static org.hamcrest.text.IsEmptyString.emptyOrNullString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ReqresInTestsHW extends TestBase {
+public class ReqresInTestsHW extends TestBaseReqres {
 
     @Test
     void resourceNotFound() {

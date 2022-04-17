@@ -1,4 +1,4 @@
-package tests;
+package tests.in.reqres;
 
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Test;
@@ -14,7 +14,7 @@ import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class ReqresInTestsMoreApiExamplesFromOtherRepos extends TestBase {
+public class ReqresInTestsMoreApiExamplesFromOtherRepos extends TestBaseReqres {
 
     @Test
     void updatePutTest() {
